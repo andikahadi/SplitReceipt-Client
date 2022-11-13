@@ -12,19 +12,19 @@ const historyData: {
     receipt_code: "00000001",
     receipt_type: "Grabfood",
     delivery_date: "22 Aug 22 17:27",
-    receipt_total: 50.0,
+    receipt_total: 20.0,
     assignment: "Mine",
     vendor: "Subway - 104AM",
     is_assigned: true,
     item: [
       {
         name: "wrap10",
-        qty: 3,
+        qty: 1,
         total_item_price: 9.9,
       },
       {
         name: "wrap11",
-        qty: 2,
+        qty: 1,
         total_item_price: 8.9,
       },
     ],

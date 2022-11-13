@@ -13,7 +13,7 @@ const receiptlistData: {
     receipt_type: "Grabfood",
     delivery_date: "22 Aug 22 17:27",
     receipt_total: 50.0,
-    vendor: "Subway - 104AM",
+    vendor: "Subway - 100AM",
     is_assigned: false,
     assignment: "Not Assigned",
     item: [

@@ -5,27 +5,29 @@ interface ReceiptListItemProps {
   receipt_code: string;
   receipt_type: string;
   vendor: string;
-  assignment: string;
   receipt_total: number;
   delivery_date: string;
+  data: any;
   index: number;
   handleReceiptPageChange: (input: string) => void;
   handleReceiptCodeSelectedChange: (input: {
-    index: number | null | undefined;
-    receipt_code: string | null | undefined;
+    index: number;
+    receipt_code: string;
   }) => void;
+  handleDeleteList: (index: number) => void;
 }
 
 export const ReceiptListItem: React.FC<ReceiptListItemProps> = ({
   receipt_code,
   receipt_type,
   vendor,
-  assignment,
   receipt_total,
   delivery_date,
+  data,
   index,
   handleReceiptPageChange,
   handleReceiptCodeSelectedChange,
+  handleDeleteList,
 }) => {
   return (
     <Card>
@@ -46,7 +48,15 @@ export const ReceiptListItem: React.FC<ReceiptListItemProps> = ({
         >
           Split
         </Button>
-        <Button variant="primary">Mine</Button>
+        <Button
+          variant="primary"
+          onClick={() => {
+            handleDeleteList(index);
+            //run fetch patch isAssigned=true, assignment='Mine'
+          }}
+        >
+          Mine
+        </Button>
       </Card.Body>
     </Card>
   );
