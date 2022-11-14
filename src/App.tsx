@@ -4,6 +4,8 @@ import { ReceiptList } from "./pages/ReceiptList";
 import { History } from "./pages/History";
 import { Account } from "./pages/Account";
 import { Navbar } from "./components/Navbar";
+import SignUp from "./components/Signup";
+import SignIn from "./components/Signin";
 
 function App() {
   return (
@@ -14,6 +16,8 @@ function App() {
           <Route path="/" element={<ReceiptList />} />
           <Route path="/history" element={<History />} />
           <Route path="/account" element={<Account />} />
+          <Route path="/register" element={<SignUp />} />
+          <Route path="/login" element={<SignIn />} />
         </Routes>
       </Container>
     </>
