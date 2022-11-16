@@ -1,5 +1,6 @@
 import React from "react";
 import { Button, Card } from "react-bootstrap";
+import axiosInstance from "../axios";
 
 interface ReceiptListItemProps {
   receipt_code: string;
@@ -29,6 +30,17 @@ export const ReceiptListItem: React.FC<ReceiptListItemProps> = ({
   handleReceiptCodeSelectedChange,
   handleDeleteList,
 }) => {
+  const handleMineClick = () => {
+    axiosInstance
+      .patch("receipt-update/", {
+        receipt_code: receipt_code,
+        assignment: "Mine",
+      })
+      .then((res) => {
+        console.log(res.data);
+        handleDeleteList(index);
+      });
+  };
   return (
     <Card>
       <Card.Header>{receipt_type}</Card.Header>
@@ -48,13 +60,7 @@ export const ReceiptListItem: React.FC<ReceiptListItemProps> = ({
         >
           Split
         </Button>
-        <Button
-          variant="primary"
-          onClick={() => {
-            handleDeleteList(index);
-            //run fetch patch isAssigned=true, assignment='Mine'
-          }}
-        >
+        <Button variant="primary" onClick={handleMineClick}>
           Mine
         </Button>
       </Card.Body>

@@ -17,15 +17,17 @@ export const HistoryItem: React.FC<HistoryItemProps> = ({
   assignment,
 }) => {
   return (
-    <Card>
-      <Card.Header>{receipt_type}</Card.Header>
-      <Card.Body>
-        <Card.Title>{vendor}</Card.Title>
-        <Card.Text>${receipt_total}</Card.Text>
-        <Card.Text>Pickup time: {delivery_date}</Card.Text>
-        <Button variant="primary">{assignment}</Button>
-      </Card.Body>
-    </Card>
+    <>
+      <Card>
+        <Card.Header>{receipt_type}</Card.Header>
+        <Card.Body>
+          <Card.Title>{vendor}</Card.Title>
+          <Card.Text>${receipt_total}</Card.Text>
+          <Card.Text>Pickup time: {delivery_date}</Card.Text>
+          <Button variant="primary">{assignment}</Button>
+        </Card.Body>
+      </Card>
+    </>
   );
 };
 

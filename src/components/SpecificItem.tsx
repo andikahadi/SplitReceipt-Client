@@ -12,6 +12,7 @@ interface SpecificItemProps {
     index: number;
     receipt_code: string;
   };
+  userFriends: any;
 }
 
 export const SpecificItem: React.FC<SpecificItemProps> = ({
@@ -19,12 +20,19 @@ export const SpecificItem: React.FC<SpecificItemProps> = ({
   itemIndex,
   receiptCodeSelected,
   handleItemUpdate,
+  userFriends,
 }) => {
   const [person1, setPerson1] = useState();
   const [person2, setPerson2] = useState();
   const [person3, setPerson3] = useState();
   const [person, setPerson] = useState({});
-  const friends = ["John", "Mary", "Steven", "Smith"];
+  // [
+  //   { name: "William", id: 3844740 },
+  //   { name: "Albert", id: 5356360 },
+  //   { name: "Adrian", id: 5875899 },
+  // ];
+  const friends = userFriends.map((e) => e.name);
+  // ["John", "Mary", "Steven", "Smith"];
   const handlePerson1Change = (event: any) => {
     setPerson((prevEntry) => {
       const dict = { ...prevEntry, person1: event.target.value };
@@ -60,6 +68,7 @@ export const SpecificItem: React.FC<SpecificItemProps> = ({
     <div>
       {/* <h1>{JSON.stringify(person)}</h1> */}
       {itemData.qty} {itemData.name} ${itemData.total_item_price}
+      <br></br>
       <input
         list="friends"
         type="text"

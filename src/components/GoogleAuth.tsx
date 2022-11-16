@@ -78,6 +78,7 @@ export const GoogleAuth: React.FC<GoogleAuthProps> = ({
               axiosInstance
                 .post("get-receipt/", {
                   email: loggedInUser["email"],
+                  is_assigned: false,
                 })
                 .then((res) => {
                   console.log(res);

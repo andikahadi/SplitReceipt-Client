@@ -19,6 +19,11 @@ function App() {
     email: "",
   });
   const [activeReceiptList, setActiveReceiptList] = useState([]);
+  const [userFriends, setUserFriends] = useState([]);
+
+  const handleUserFriendsChange = (input: any) => {
+    setUserFriends(input);
+  };
 
   const handleLoggedInUserChange = (input: string) => {
     setLoggedInUser({ email: input });
@@ -51,6 +56,7 @@ function App() {
   return (
     <>
       <Navbar />
+      <p>{JSON.stringify(userFriends)}</p>
       {/* <p>{JSON.stringify(loggedInUser)}</p>
       <p>{JSON.stringify(activeReceiptList)}</p> */}
       <Container>
@@ -60,20 +66,26 @@ function App() {
             element={
               <ReceiptList
                 activeReceiptList={activeReceiptList}
+                setActiveReceiptList={setActiveReceiptList}
                 handleDeleteList={handleDeleteList}
                 handleUpdateList={handleUpdateList}
                 loggedInUser={loggedInUser}
+                userFriends={userFriends}
               />
             }
           />
           <Route path="/authorize" element={<Authorize />} />
-          <Route path="/history" element={<History />} />
+          <Route
+            path="/history"
+            element={<History loggedInUser={loggedInUser} />}
+          />
           <Route
             path="/account"
             element={
               <Account
                 loggedInUser={loggedInUser}
                 handleCreateList={handleCreateList}
+                handleUserFriendsChange={handleUserFriendsChange}
               />
             }
           />

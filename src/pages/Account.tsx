@@ -11,13 +11,14 @@ interface AccountProps {
     email: string | null | undefined;
   };
   handleCreateList: (input: any) => void;
+  handleUserFriendsChange: (input: any) => void;
 }
 
 export const Account: React.FC<AccountProps> = ({
   loggedInUser,
   handleCreateList,
+  handleUserFriendsChange,
 }) => {
-  const [userFriends, setUserFriends] = useState([]);
   const nav = useNavigate();
   const handleConnect = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -34,21 +35,22 @@ export const Account: React.FC<AccountProps> = ({
   const handleClickGet = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    let oauth_token = localStorage.getItem("oauth_token");
-    let oauth_token_secret = localStorage.getItem("oauth_token_secret");
+    // let oauth_token = localStorage.getItem("oauth_token");
+    // let oauth_token_secret = localStorage.getItem("oauth_token_secret");
+
+    let splitwise_access_token = JSON.parse(
+      localStorage.getItem("splitwise_access_token")
+    );
+
     axiosInstance
-      .post("splitwise-friend/", {
-        oauth_token: oauth_token,
-        oauth_token_secret: oauth_token_secret,
-      })
+      .post("splitwise-friend/", splitwise_access_token)
       .then((res) => {
-        setUserFriends(res.data);
+        handleUserFriendsChange(res.data);
       });
   };
 
   return (
     <>
-      <p>{JSON.stringify(userFriends)}</p>
       <Button
         type="submit"
         fullWidth
