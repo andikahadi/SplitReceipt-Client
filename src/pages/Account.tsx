@@ -1,14 +1,22 @@
 import { Button } from "@mui/material";
 import React, { useState } from "react";
 import axiosInstance from "../axios";
-import SignIn from "../components/Signin";
 import SignUp from "../components/Signup";
 import Redirect, { useNavigate } from "react-router-dom";
 import { SettingsInputAntenna } from "@mui/icons-material";
+import { GoogleAuth } from "../components/GoogleAuth";
 
-interface AccountProps {}
+interface AccountProps {
+  loggedInUser: {
+    email: string | null | undefined;
+  };
+  handleCreateList: (input: any) => void;
+}
 
-export const Account: React.FC<AccountProps> = ({}) => {
+export const Account: React.FC<AccountProps> = ({
+  loggedInUser,
+  handleCreateList,
+}) => {
   const [userFriends, setUserFriends] = useState([]);
   const nav = useNavigate();
   const handleConnect = (
@@ -60,6 +68,11 @@ export const Account: React.FC<AccountProps> = ({}) => {
       >
         Get splitwise friend list
       </Button>
+
+      <GoogleAuth
+        loggedInUser={loggedInUser}
+        handleCreateList={handleCreateList}
+      />
     </>
   );
 };

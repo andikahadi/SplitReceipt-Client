@@ -1,51 +1,43 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Row } from "react-bootstrap";
+import axiosInstance from "../axios";
 import { ReceiptListItem } from "../components/ReceiptListItem";
 import { SpecificReceipt } from "../components/SpecificReceipt";
 import receiptlist from "../data/receiptlist";
 
-interface ReceiptListProps {}
+interface ReceiptListProps {
+  loggedInUser: {
+    email: string | null | undefined;
+  };
+  activeReceiptList: any;
+  handleDeleteList: (index: number) => void;
+  handleUpdateList: (index: number, updatedItem: any) => void;
+}
 interface ReceiptCodeSelectedType {
   index: number;
   receipt_code: string;
 }
 
-export const ReceiptList: React.FC<ReceiptListProps> = ({}) => {
+export const ReceiptList: React.FC<ReceiptListProps> = ({
+  loggedInUser,
+  activeReceiptList,
+  handleDeleteList,
+  handleUpdateList,
+}) => {
   //fetch and store user Splitwise Friends list
   const [receiptPage, setReceiptPage] = useState<string>("list");
   const [receiptCodeSelected, setReceiptCodeSelected] =
     useState<ReceiptCodeSelectedType>({ index: 0, receipt_code: "" });
-  const [activeReceiptList, setActiveReceiptList] = useState(receiptlist);
 
   const handleReceiptPageChange = (input: string) => {
     setReceiptPage(input);
   };
+
   const handleReceiptCodeSelectedChange = (input: {
     index: number;
     receipt_code: string;
   }) => {
     setReceiptCodeSelected(input);
-  };
-
-  // update and delete active receipt list
-  const handleUpdateList = (index: number, updatedItem: any) => {
-    setActiveReceiptList((prevEntries) => {
-      // const arr = [...prevEntries];
-      // arr[index] = { ...arr[index], ...updatedItem };
-      // return arr;
-      const arr = [...prevEntries];
-      arr[index] = updatedItem;
-      return arr;
-    });
-    //run fetch patch
-  };
-
-  const handleDeleteList = (index: number) => {
-    setActiveReceiptList((prevEntry) => {
-      const arr = [...prevEntry];
-      const filtered = arr.filter((d, i) => i !== index);
-      return filtered;
-    });
   };
 
   //render page

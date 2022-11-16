@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -15,15 +15,16 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState } from "react";
 import axiosInstance from "../axios";
 import { useNavigate } from "react-router-dom";
-
 const theme = createTheme();
 
-export default function SignUp() {
-  const nav = useNavigate();
+interface LoginProps {
+  handleLoggedInUserChange: (input: string) => void;
+}
 
+export const Login: React.FC<LoginProps> = ({ handleLoggedInUserChange }) => {
+  const nav = useNavigate();
   const initialFormData = Object.freeze({
     email: "",
-    username: "",
     password: "",
   });
 
@@ -40,19 +41,22 @@ export default function SignUp() {
   ) => {
     event.preventDefault();
     console.log(formData);
-
-    //fetch post user registration
+    //fetch post user login
     axiosInstance
-      .post("user/register/", {
+      .post("token/", {
         email: formData.email,
-        user_name: formData.username,
         password: formData.password,
       })
       .then((res) => {
-        console.log("new user registered");
-        console.log(res);
         console.log(res.data);
-        nav("/login");
+
+        localStorage.setItem("access_token", res.data.access);
+        localStorage.setItem("refresh_token", res.data.refresh);
+        axiosInstance.defaults.headers["Authorization"] =
+          "Bearer " + localStorage.getItem("access_token");
+        //navigate to home
+        handleLoggedInUserChange(formData.email);
+        nav("/account");
       });
   };
 
@@ -73,45 +77,31 @@ export default function SignUp() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            Sign in
           </Typography>
-          <Box component="form" noValidate sx={{ mt: 3 }}>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                  onChange={handleChange}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="username"
-                  label="Username"
-                  name="username"
-                  autoComplete="username"
-                  onChange={handleChange}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
-                  onChange={handleChange}
-                />
-              </Grid>
-            </Grid>
+          <Box component="form" noValidate sx={{ mt: 1 }}>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              autoFocus
+              onChange={handleChange}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              onChange={handleChange}
+            />
             <Button
               type="submit"
               fullWidth
@@ -119,18 +109,24 @@ export default function SignUp() {
               sx={{ mt: 3, mb: 2 }}
               onClick={handleSubmit}
             >
-              Sign Up
+              Sign In
             </Button>
-            <Grid container justifyContent="flex-end">
+
+            <Grid container>
+              <Grid item xs>
+                <Link href="#" variant="body2">
+                  Forgot password?
+                </Link>
+              </Grid>
               <Grid item>
                 <Link
                   href="#"
                   variant="body2"
                   onClick={(e) => {
-                    nav("/login");
+                    nav("/register");
                   }}
                 >
-                  Already have an account? Sign in
+                  {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
             </Grid>
@@ -139,4 +135,4 @@ export default function SignUp() {
       </Container>
     </ThemeProvider>
   );
-}
+};

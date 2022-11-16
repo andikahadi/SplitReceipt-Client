@@ -2,54 +2,23 @@ import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import jwt_decode from "jwt-decode";
 import { Google } from "@mui/icons-material";
+import axiosInstance from "../axios";
 
-interface GoogleAuthProps {}
+interface GoogleAuthProps {
+  loggedInUser: {
+    email: string | null | undefined;
+  };
+  handleCreateList: (input: any) => void;
+}
 
 const CLIENT_ID =
   "1021304219474-kffnfs7t3c0hh09g6sbs4kq1fg8djr43.apps.googleusercontent.com";
 const SCOPE = "https://www.googleapis.com/auth/gmail.readonly";
 
-export const GoogleAuth: React.FC<GoogleAuthProps> = ({}) => {
-  // const [gsiScriptLoaded, setGsiScriptLoaded] = useState(false);
-
-  // const handleGoogleSignIn = (res) => {
-  //   if (!res.clientId || !res.credential) return;
-  //   console.log("JWT: " + res.credential);
-
-  //   // Implement your login mutations and logic here.
-  //   // Set cookies, call your backend, etc.
-  // };
-
-  // useEffect(() => {
-  //   const initializeGsi = () => {
-  //     // Typescript will complain about window.google
-  //     // Add types to your `react-app-env.d.ts` or //@ts-ignore it.
-  //     if (!window.google || gsiScriptLoaded) {
-  //       console.log("script is loaded");
-  //       return;
-  //     }
-
-  //     setGsiScriptLoaded(true);
-  //     window.google.accounts.id.initialize({
-  //       client_id:
-  //         "1021304219474-kffnfs7t3c0hh09g6sbs4kq1fg8djr43.apps.googleusercontent.com",
-  //       callback: handleGoogleSignIn,
-  //     });
-  //   };
-  //   const script = document.createElement("script");
-  //   script.src = "https://accounts.google.com/gsi/client";
-  //   script.onload = initializeGsi;
-  //   script.async = true;
-  //   script.id = "google-client-script";
-  //   document.querySelector("body")?.appendChild(script);
-
-  //   return () => {
-  //     // Cleanup function that runs when component unmounts
-  //     window.google?.accounts.id.cancel();
-  //     document.getElementById("google-client-script")?.remove();
-  //   };
-  // }, []);
-
+export const GoogleAuth: React.FC<GoogleAuthProps> = ({
+  loggedInUser,
+  handleCreateList,
+}) => {
   const [user, setUser] = useState({});
   const [tokenClient, setTokenClient] = useState({});
 
@@ -61,14 +30,16 @@ export const GoogleAuth: React.FC<GoogleAuthProps> = ({}) => {
     document.getElementById("signInDiv").hidden = true;
   }
 
-  function handleSignOut(event) {
-    setUser({});
-    document.getElementById("signInDiv").hidden = false;
+  // function handleSignOut(event) {
+  //   setUser({});
+  //   document.getElementById("signInDiv").hidden = false;
+  // }
+
+  function accessEmailInbox() {
+    tokenClient.requestAccessToken();
+    axiosInstance;
   }
 
-  function createDriveFile() {
-    tokenClient.requestAccessToken();
-  }
   useEffect(() => {
     /*Global Google*/
 
@@ -97,9 +68,22 @@ export const GoogleAuth: React.FC<GoogleAuthProps> = ({}) => {
         callback: (tokenResponse) => {
           console.log(tokenResponse);
           // We now have access to a live token to use for any google API
-          // if (tokenResponse && tokenResponse.access_token) {
-          //   fetch();
-          // }
+          axiosInstance
+            .post("gmail-receipt/", {
+              access_token: tokenResponse["access_token"],
+              email: loggedInUser["email"],
+            })
+            .then((res) => {
+              console.log("getting receipt from gmail inbox");
+              axiosInstance
+                .post("get-receipt/", {
+                  email: loggedInUser["email"],
+                })
+                .then((res) => {
+                  console.log(res);
+                  handleCreateList(res.data);
+                });
+            });
         },
       })
     );
@@ -108,6 +92,7 @@ export const GoogleAuth: React.FC<GoogleAuthProps> = ({}) => {
 
   return (
     <>
+      {/* <p>{JSON.stringify(loggedInUser)}</p> */}
       <div id="signInDiv"></div>
       {/* <Button className={"g_id_signin"} /> */}
       {Object.keys(user).length != 0 && (
@@ -118,7 +103,11 @@ export const GoogleAuth: React.FC<GoogleAuthProps> = ({}) => {
         <div>
           <img src={user.picture} />
           <h3>{user.name}</h3>
-          <input type="submit" onClick={createDriveFile} value="Create File" />
+          <input
+            type="submit"
+            onClick={accessEmailInbox}
+            value="Access Email Inbox"
+          />
         </div>
       )}
     </>

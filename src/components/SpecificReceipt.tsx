@@ -10,6 +10,11 @@ interface SpecificReceiptProps {
   handleUpdateList: (index: number, updatedItem: any) => void;
 }
 
+// interface SplitAmountInterface {
+//   name: string;
+//   amount: number;
+// }
+
 export const SpecificReceipt: React.FC<SpecificReceiptProps> = ({
   receiptCodeSelected,
   receipt,
@@ -41,32 +46,28 @@ export const SpecificReceipt: React.FC<SpecificReceiptProps> = ({
       i += 1;
     }
     if (isSet == true) {
+      let tempDictionary = {};
       for (let i = 0; i < receiptChosen.item.length; i++) {
         for (let j = 0; j < receiptChosen.item[i].person.length; j++) {
-          if (!(receiptChosen.item[i].person[j] in splitAmount)) {
-            setSplitAmount((prevState) => {
-              let newItem = receiptChosen.item[i].person[j];
-              const dict = { ...prevState };
-              dict[newItem] =
-                receiptChosen.item[i].total_item_price /
-                receiptChosen.item[i].person.length;
-              return dict;
-            });
+          if (!(receiptChosen.item[i].person[j] in tempDictionary)) {
+            let newItem = receiptChosen.item[i].person[j];
+            tempDictionary[newItem] =
+              receiptChosen.item[i].total_item_price /
+              receiptChosen.item[i].person.length;
           } else {
-            setSplitAmount((prevState) => {
-              const dict = { ...prevState };
-              let existingItem = receiptChosen.item[i].person[j];
-              const prevAmount = dict[existingItem];
-              const newAmount =
-                prevAmount +
-                receiptChosen.item[i].total_item_price /
-                  receiptChosen.item[i].person.length;
-              dict[existingItem] = newAmount;
-              return dict;
-            });
+            let existingItem = receiptChosen.item[i].person[j];
+            let prevAmount = tempDictionary[existingItem];
+            let newAmount =
+              prevAmount +
+              receiptChosen.item[i].total_item_price /
+                receiptChosen.item[i].person.length;
+
+            tempDictionary[existingItem] = newAmount;
           }
         }
       }
+      console.log(tempDictionary);
+      setSplitAmount(tempDictionary);
     } else {
       alert("Please assign all items");
     }

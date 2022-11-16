@@ -16,9 +16,15 @@ import { useState } from "react";
 import axiosInstance from "../axios";
 import { useNavigate } from "react-router-dom";
 
+interface SignInProps {
+  handleLoggedInUserChange: (input: string) => void;
+}
+
 const theme = createTheme();
 
-export default function SignIn() {
+interface ReceiptListProps {}
+
+export const SignIn: React.FC<SignInProps> = ({ handleLoggedInUserChange }) => {
   const nav = useNavigate();
   const initialFormData = Object.freeze({
     email: "",
@@ -52,13 +58,14 @@ export default function SignIn() {
         axiosInstance.defaults.headers["Authorization"] =
           "Bearer " + localStorage.getItem("access_token");
         //navigate to home
+        handleLoggedInUserChange(formData.email);
         nav("/");
       });
   };
 
   return (
     <ThemeProvider theme={theme}>
-      <p>{JSON.stringify(formData)}</p>
+      {/* <p>{JSON.stringify(formData)}</p> */}
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -131,4 +138,4 @@ export default function SignIn() {
       </Container>
     </ThemeProvider>
   );
-}
+};
