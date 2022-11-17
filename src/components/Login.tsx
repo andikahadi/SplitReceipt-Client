@@ -55,9 +55,21 @@ export const Login: React.FC<LoginProps> = ({ handleLoggedInUserChange }) => {
         axiosInstance.defaults.headers["Authorization"] =
           "Bearer " + localStorage.getItem("access_token");
         //navigate to home
-        handleLoggedInUserChange(formData.email);
-        localStorage.setItem("split_receipt_email", formData.email);
-        nav("/account");
+        axiosInstance
+          .post("user-read/", {
+            email: formData.email,
+          })
+          .then((res) => {
+            console.log(res.data);
+            handleLoggedInUserChange(res.data["email"]);
+            localStorage.setItem("split_receipt_email", res.data["email"]);
+            localStorage.setItem("admin_role", res.data["is_admin"]);
+            nav("/account");
+          });
+        //navigate to home
+        // handleLoggedInUserChange(formData.email);
+        // localStorage.setItem("split_receipt_email", formData.email);
+        // nav("/account");
       });
   };
 
@@ -114,11 +126,7 @@ export const Login: React.FC<LoginProps> = ({ handleLoggedInUserChange }) => {
             </Button>
 
             <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
+              <Grid item xs></Grid>
               <Grid item>
                 <Link
                   href="#"

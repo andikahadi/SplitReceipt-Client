@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Row } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import axiosInstance from "../axios";
 import { ReceiptListItem } from "../components/ReceiptListItem";
+import { ReceiptListMui } from "../components/ReceiptListMui";
 import { SpecificReceipt } from "../components/SpecificReceipt";
+import { SpecificReceiptMui } from "../components/SpecificReceiptMui";
 import receiptlist from "../data/receiptlist";
 
 interface ReceiptListProps {
@@ -26,6 +29,7 @@ export const ReceiptList: React.FC<ReceiptListProps> = ({
   handleUpdateList,
   setActiveReceiptList,
 }) => {
+  const nav = useNavigate();
   //fetch and store user Splitwise Friends list
   const [receiptPage, setReceiptPage] = useState<string>("list");
   const [receiptCodeSelected, setReceiptCodeSelected] =
@@ -53,6 +57,11 @@ export const ReceiptList: React.FC<ReceiptListProps> = ({
       .then((res) => {
         console.log(res);
         setActiveReceiptList(res.data);
+      })
+      .catch(function (error) {
+        if (error.response.status == 401) {
+          nav("/login");
+        }
       });
 
     // need an error checking
@@ -63,6 +72,8 @@ export const ReceiptList: React.FC<ReceiptListProps> = ({
     axiosInstance
       .post("splitwise-friend/", splitwise_access_token)
       .then((res) => {
+        console.log(res);
+
         setUserFriends(res.data);
       });
   }, []);
@@ -72,12 +83,25 @@ export const ReceiptList: React.FC<ReceiptListProps> = ({
   if (receiptPage === "list") {
     page = (
       <>
-        <h1>Receipt List</h1>
         {activeReceiptList && (
           <Row>
             {activeReceiptList.map((d, i) => {
               return (
-                <ReceiptListItem
+                // <ReceiptListItem
+                //   receipt_code={d.receipt_code}
+                //   receipt_type={d.receipt_type}
+                //   vendor={d.vendor}
+                //   receipt_total={d.receipt_total}
+                //   delivery_date={d.delivery_date}
+                //   data={d}
+                //   index={i}
+                //   handleReceiptPageChange={handleReceiptPageChange}
+                //   handleReceiptCodeSelectedChange={
+                //     handleReceiptCodeSelectedChange
+                //   }
+                //   handleDeleteList={handleDeleteList}
+                // />
+                <ReceiptListMui
                   receipt_code={d.receipt_code}
                   receipt_type={d.receipt_type}
                   vendor={d.vendor}
@@ -101,7 +125,7 @@ export const ReceiptList: React.FC<ReceiptListProps> = ({
     page = (
       <>
         {/* <p>{JSON.stringify(activeReceiptList)}</p> */}
-        <SpecificReceipt
+        {/* <SpecificReceipt
           receiptCodeSelected={receiptCodeSelected}
           receipt={activeReceiptList[receiptCodeSelected["index"]]}
           handleUpdateList={handleUpdateList}
@@ -109,6 +133,14 @@ export const ReceiptList: React.FC<ReceiptListProps> = ({
           userFriends={userFriends}
           setReceiptPage={setReceiptPage}
           //prop down friendsList
+        /> */}
+        <SpecificReceiptMui
+          receiptCodeSelected={receiptCodeSelected}
+          receipt={activeReceiptList[receiptCodeSelected["index"]]}
+          handleUpdateList={handleUpdateList}
+          handleDeleteList={handleDeleteList}
+          userFriends={userFriends}
+          setReceiptPage={setReceiptPage}
         />
       </>
     );
@@ -116,5 +148,12 @@ export const ReceiptList: React.FC<ReceiptListProps> = ({
     page = <h1>Error</h1>;
   }
 
-  return page;
+  return (
+    <>
+      {!localStorage.getItem("splitwise_access_token") && (
+        <p>Please connect to Splitwise at Account page</p>
+      )}
+      {page}
+    </>
+  );
 };

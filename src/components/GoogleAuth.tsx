@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import jwt_decode from "jwt-decode";
 import { Google } from "@mui/icons-material";
@@ -9,8 +9,17 @@ interface GoogleAuthProps {
     email: string | null | undefined;
   };
   handleCreateList: (input: any) => void;
+  userInfo: {
+    email: string;
+    username: string;
+    is_admin: boolean;
+    last_email_fetch: string;
+  };
 }
 
+interface FetchTimeDisplayInterface {
+  last_fetch_time: Date;
+}
 const CLIENT_ID =
   "1021304219474-kffnfs7t3c0hh09g6sbs4kq1fg8djr43.apps.googleusercontent.com";
 const SCOPE = "https://www.googleapis.com/auth/gmail.readonly";
@@ -18,9 +27,13 @@ const SCOPE = "https://www.googleapis.com/auth/gmail.readonly";
 export const GoogleAuth: React.FC<GoogleAuthProps> = ({
   loggedInUser,
   handleCreateList,
+  userInfo,
+  setTempState,
 }) => {
   const [user, setUser] = useState({});
   const [tokenClient, setTokenClient] = useState({});
+  const [fetchTimeDisplay, setFetchTimeDisplay] =
+    useState<FetchTimeDisplayInterface>();
 
   function handleCallbackResponse(response) {
     console.log("Encoded JWT ID token:" + response.credential);
@@ -30,10 +43,10 @@ export const GoogleAuth: React.FC<GoogleAuthProps> = ({
     document.getElementById("signInDiv").hidden = true;
   }
 
-  // function handleSignOut(event) {
-  //   setUser({});
-  //   document.getElementById("signInDiv").hidden = false;
-  // }
+  function handleSignOut(event) {
+    setUser({});
+    document.getElementById("signInDiv").hidden = false;
+  }
 
   function accessEmailInbox() {
     tokenClient.requestAccessToken();
@@ -88,27 +101,35 @@ export const GoogleAuth: React.FC<GoogleAuthProps> = ({
         },
       })
     );
+
     // tokenClient.requestAccessToken()
   }, []);
 
   return (
     <>
       {/* <p>{JSON.stringify(loggedInUser)}</p> */}
-      <div id="signInDiv"></div>
+      {/* <div id="signInDiv"></div> */}
       {/* <Button className={"g_id_signin"} /> */}
-      {Object.keys(user).length != 0 && (
+      {/* {Object.keys(user).length != 0 && (
         <button onClick={(e) => handleSignOut(e)}>Sign Out</button>
-      )}
-
+      )} */}
       {user && (
         <div>
-          <img src={user.picture} />
-          <h3>{user.name}</h3>
-          <input
+          {/* <img src={user.picture} />
+          <h3>{user.name}</h3> */}
+
+          <Button
             type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
             onClick={accessEmailInbox}
-            value="Access Email Inbox"
-          />
+          >
+            Get Receipt from Gmail
+          </Button>
+          <Typography variant="body1" color="text.secondary">
+            Last email fetch: {userInfo?.last_email_fetch}
+          </Typography>
         </div>
       )}
     </>

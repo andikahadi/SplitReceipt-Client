@@ -18,6 +18,11 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
           <Nav.Link to={"/account"} as={NavLink}>
             Account
           </Nav.Link>
+          {localStorage.getItem("admin_role") === "true" && (
+            <Nav.Link to={"/userlist"} as={NavLink}>
+              User List
+            </Nav.Link>
+          )}
         </Nav>
       </Container>
     </NavbarBs>

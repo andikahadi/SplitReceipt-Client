@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import { ReceiptList } from "./pages/ReceiptList";
 import { History } from "./pages/History";
@@ -9,6 +9,9 @@ import { Authorize } from "./pages/Authorize";
 import { Testing } from "./pages/Testing";
 import { useState } from "react";
 import { Login } from "./components/Login";
+import { UserList } from "./pages/UserList";
+import BottomNavBar from "./components/BottomNavBar";
+import { Header } from "./components/Header";
 
 interface LoggedInUserInterface {
   email: string | null | undefined;
@@ -19,9 +22,17 @@ function App() {
     email: localStorage.getItem("split_receipt_email"),
   });
   const [activeReceiptList, setActiveReceiptList] = useState([]);
+  const nav = useNavigate();
 
   const handleLoggedInUserChange = (input: string) => {
     setLoggedInUser({ email: input });
+  };
+
+  const handleLogoutUser = () => {
+    setLoggedInUser({ email: null });
+    localStorage.clear();
+    nav("/login");
+    location.reload();
   };
 
   const handleCreateList = (input: any) => {
@@ -50,7 +61,8 @@ function App() {
 
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
+      <Header loggedInUser={loggedInUser} handleLogoutUser={handleLogoutUser} />
       {/* <p>{JSON.stringify(loggedInUser)}</p>
       <p>{JSON.stringify(activeReceiptList)}</p> */}
       <Container>
@@ -91,7 +103,9 @@ function App() {
             }
           />
           <Route path="/testing" element={<Testing />} />
+          <Route path="/userlist" element={<UserList />} />
         </Routes>
+        <BottomNavBar />
       </Container>
     </>
   );
