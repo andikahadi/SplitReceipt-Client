@@ -11,13 +11,11 @@ interface AccountProps {
     email: string | null | undefined;
   };
   handleCreateList: (input: any) => void;
-  handleUserFriendsChange: (input: any) => void;
 }
 
 export const Account: React.FC<AccountProps> = ({
   loggedInUser,
   handleCreateList,
-  handleUserFriendsChange,
 }) => {
   const nav = useNavigate();
   const handleConnect = (
@@ -32,22 +30,22 @@ export const Account: React.FC<AccountProps> = ({
     });
   };
 
-  const handleClickGet = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    // let oauth_token = localStorage.getItem("oauth_token");
-    // let oauth_token_secret = localStorage.getItem("oauth_token_secret");
+  // const handleClickGet = (
+  //   event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  // ) => {
+  //   // let oauth_token = localStorage.getItem("oauth_token");
+  //   // let oauth_token_secret = localStorage.getItem("oauth_token_secret");
 
-    let splitwise_access_token = JSON.parse(
-      localStorage.getItem("splitwise_access_token")
-    );
+  //   let splitwise_access_token = JSON.parse(
+  //     localStorage.getItem("splitwise_access_token")
+  //   );
 
-    axiosInstance
-      .post("splitwise-friend/", splitwise_access_token)
-      .then((res) => {
-        handleUserFriendsChange(res.data);
-      });
-  };
+  //   axiosInstance
+  //     .post("splitwise-friend/", splitwise_access_token)
+  //     .then((res) => {
+  //       handleUserFriendsChange(res.data);
+  //     });
+  // };
 
   return (
     <>
@@ -61,15 +59,9 @@ export const Account: React.FC<AccountProps> = ({
         Connect to Splitwise
       </Button>
 
-      <Button
-        type="submit"
-        fullWidth
-        variant="contained"
-        sx={{ mt: 3, mb: 2 }}
-        onClick={handleClickGet}
-      >
+      {/* <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
         Get splitwise friend list
-      </Button>
+      </Button> */}
 
       <GoogleAuth
         loggedInUser={loggedInUser}

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Decimal from "decimal.js";
 import axiosInstance from "../axios";
 import { SpecificItem } from "./SpecificItem";
 
@@ -27,8 +28,8 @@ export const SpecificReceipt: React.FC<SpecificReceiptProps> = ({
   setReceiptPage,
   userFriends,
 }) => {
-  const [receiptChosen, setReceiptChosen] = useState(receipt);
-  const [splitAmount, setSplitAmount] = useState({});
+  const [receiptChosen, setReceiptChosen] = useState(receipt); // receiptChosen initially contains receipt info, and will get additional info of person the items are assigned to
+  const [splitAmount, setSplitAmount] = useState({}); // will store info on owedAmount {name:owedAmount, name:owedAmount}
 
   //calculate subtotal and other fee
   let subTotal = 0;

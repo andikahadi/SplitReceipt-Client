@@ -56,6 +56,7 @@ export const Login: React.FC<LoginProps> = ({ handleLoggedInUserChange }) => {
           "Bearer " + localStorage.getItem("access_token");
         //navigate to home
         handleLoggedInUserChange(formData.email);
+        localStorage.setItem("split_receipt_email", formData.email);
         nav("/account");
       });
   };

@@ -16,14 +16,9 @@ interface LoggedInUserInterface {
 
 function App() {
   const [loggedInUser, setLoggedInUser] = useState<LoggedInUserInterface>({
-    email: "",
+    email: localStorage.getItem("split_receipt_email"),
   });
   const [activeReceiptList, setActiveReceiptList] = useState([]);
-  const [userFriends, setUserFriends] = useState([]);
-
-  const handleUserFriendsChange = (input: any) => {
-    setUserFriends(input);
-  };
 
   const handleLoggedInUserChange = (input: string) => {
     setLoggedInUser({ email: input });
@@ -56,7 +51,6 @@ function App() {
   return (
     <>
       <Navbar />
-      <p>{JSON.stringify(userFriends)}</p>
       {/* <p>{JSON.stringify(loggedInUser)}</p>
       <p>{JSON.stringify(activeReceiptList)}</p> */}
       <Container>
@@ -70,7 +64,7 @@ function App() {
                 handleDeleteList={handleDeleteList}
                 handleUpdateList={handleUpdateList}
                 loggedInUser={loggedInUser}
-                userFriends={userFriends}
+                // userFriends={userFriends}
               />
             }
           />
@@ -85,7 +79,7 @@ function App() {
               <Account
                 loggedInUser={loggedInUser}
                 handleCreateList={handleCreateList}
-                handleUserFriendsChange={handleUserFriendsChange}
+                // handleUserFriendsChange={handleUserFriendsChange}
               />
             }
           />

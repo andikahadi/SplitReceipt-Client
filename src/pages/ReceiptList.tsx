@@ -13,7 +13,6 @@ interface ReceiptListProps {
   setActiveReceiptList: any;
   handleDeleteList: (index: number) => void;
   handleUpdateList: (index: number, updatedItem: any) => void;
-  userFriends: any;
 }
 interface ReceiptCodeSelectedType {
   index: number;
@@ -25,13 +24,14 @@ export const ReceiptList: React.FC<ReceiptListProps> = ({
   activeReceiptList,
   handleDeleteList,
   handleUpdateList,
-  userFriends,
   setActiveReceiptList,
 }) => {
   //fetch and store user Splitwise Friends list
   const [receiptPage, setReceiptPage] = useState<string>("list");
   const [receiptCodeSelected, setReceiptCodeSelected] =
     useState<ReceiptCodeSelectedType>({ index: 0, receipt_code: "" });
+
+  const [userFriends, setUserFriends] = useState([]);
 
   const handleReceiptPageChange = (input: string) => {
     setReceiptPage(input);
@@ -53,6 +53,17 @@ export const ReceiptList: React.FC<ReceiptListProps> = ({
       .then((res) => {
         console.log(res);
         setActiveReceiptList(res.data);
+      });
+
+    // need an error checking
+    let splitwise_access_token = JSON.parse(
+      localStorage.getItem("splitwise_access_token")
+    );
+
+    axiosInstance
+      .post("splitwise-friend/", splitwise_access_token)
+      .then((res) => {
+        setUserFriends(res.data);
       });
   }, []);
 
