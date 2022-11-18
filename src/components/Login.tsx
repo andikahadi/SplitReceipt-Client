@@ -70,10 +70,6 @@ export const Login: React.FC<LoginProps> = ({ handleLoggedInUserChange }) => {
             localStorage.setItem("admin_role", res.data["is_admin"]);
             nav("/account");
           });
-        //navigate to home
-        // handleLoggedInUserChange(formData.email);
-        // localStorage.setItem("split_receipt_email", formData.email);
-        // nav("/account");
       });
   };
 
@@ -83,7 +79,6 @@ export const Login: React.FC<LoginProps> = ({ handleLoggedInUserChange }) => {
 
   return (
     <ThemeProvider theme={theme}>
-      {/* <p>{JSON.stringify(formData)}</p> */}
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box

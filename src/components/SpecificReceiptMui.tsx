@@ -280,27 +280,3 @@ export const SpecificReceiptMui: React.FC<SpecificReceiptMuiProps> = ({
     </Card>
   );
 };
-
-{
-  /* <h1>Specific</h1>
-<p>{JSON.stringify(receiptChosen)}</p>
-<p>{JSON.stringify(splitAmount)}</p>
-<h1>{receiptChosen.receipt_type}</h1>
-<h2>{receiptChosen.vendor}</h2>
-<p>Pick-up time : {receiptChosen.delivery_date}</p>
-
-{receiptChosen.item.map((data: any, index: number) => {
-  return (
-    <SpecificItem
-      itemData={data}
-      itemIndex={index}
-      receiptCodeSelected={receiptCodeSelected}
-      handleItemUpdate={handleItemUpdate}
-      userFriends={userFriends}
-    />
-  );
-})}
-<p>Receipt total : {receiptChosen.receipt_total}</p>
-<button onClick={(e) => handleCalculateClick()}>Calculate</button>
-<button onClick={(e) => handleCalculateClick()}>Calculate</button> */
-}

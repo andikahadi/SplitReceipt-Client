@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../axios";
-import SignUp from "../components/Signup";
 import Redirect, { useNavigate } from "react-router-dom";
-import { SettingsInputAntenna } from "@mui/icons-material";
 import { GoogleAuth } from "../components/GoogleAuth";
-import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -50,22 +46,6 @@ export const Account: React.FC<AccountProps> = ({
     });
   };
 
-  // const handleClickGet = (
-  //   event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  // ) => {
-  //   // let oauth_token = localStorage.getItem("oauth_token");
-  //   // let oauth_token_secret = localStorage.getItem("oauth_token_secret");
-
-  //   let splitwise_access_token = JSON.parse(
-  //     localStorage.getItem("splitwise_access_token")
-  //   );
-
-  //   axiosInstance
-  //     .post("splitwise-friend/", splitwise_access_token)
-  //     .then((res) => {
-  //       handleUserFriendsChange(res.data);
-  //     });
-  // };
   useEffect(() => {
     let email = localStorage.getItem("split_receipt_email");
     axiosInstance
@@ -90,10 +70,6 @@ export const Account: React.FC<AccountProps> = ({
 
   return (
     <>
-      {/* <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-        Get splitwise friend list
-      </Button> */}
-
       <Card sx={{ minWidth: 275, mt: 1 }}>
         <CardContent>
           <Typography variant="h6" component="div" sx={{ mb: 5, mt: 0 }}>

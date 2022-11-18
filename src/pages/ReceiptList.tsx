@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import axiosInstance from "../axios";
 import { ReceiptListMui } from "../components/ReceiptListMui";
 import { SpecificReceiptMui } from "../components/SpecificReceiptMui";
-import receiptlist from "../data/receiptlist";
 
 interface ReceiptListProps {
   loggedInUser: {
@@ -82,56 +81,34 @@ export const ReceiptList: React.FC<ReceiptListProps> = ({
     page = (
       <>
         {activeReceiptList && (
-          <Row>
-            {activeReceiptList.map((d, i) => {
-              return (
-                // <ReceiptListItem
-                //   receipt_code={d.receipt_code}
-                //   receipt_type={d.receipt_type}
-                //   vendor={d.vendor}
-                //   receipt_total={d.receipt_total}
-                //   delivery_date={d.delivery_date}
-                //   data={d}
-                //   index={i}
-                //   handleReceiptPageChange={handleReceiptPageChange}
-                //   handleReceiptCodeSelectedChange={
-                //     handleReceiptCodeSelectedChange
-                //   }
-                //   handleDeleteList={handleDeleteList}
-                // />
-                <ReceiptListMui
-                  receipt_code={d.receipt_code}
-                  receipt_type={d.receipt_type}
-                  vendor={d.vendor}
-                  receipt_total={d.receipt_total}
-                  delivery_date={d.delivery_date}
-                  data={d}
-                  index={i}
-                  handleReceiptPageChange={handleReceiptPageChange}
-                  handleReceiptCodeSelectedChange={
-                    handleReceiptCodeSelectedChange
-                  }
-                  handleDeleteList={handleDeleteList}
-                />
-              );
-            })}
-          </Row>
+          <div style={{ marginBottom: "3rem" }}>
+            <Row>
+              {activeReceiptList.map((d, i) => {
+                return (
+                  <ReceiptListMui
+                    receipt_code={d.receipt_code}
+                    receipt_type={d.receipt_type}
+                    vendor={d.vendor}
+                    receipt_total={d.receipt_total}
+                    delivery_date={d.delivery_date}
+                    data={d}
+                    index={i}
+                    handleReceiptPageChange={handleReceiptPageChange}
+                    handleReceiptCodeSelectedChange={
+                      handleReceiptCodeSelectedChange
+                    }
+                    handleDeleteList={handleDeleteList}
+                  />
+                );
+              })}
+            </Row>
+          </div>
         )}
       </>
     );
   } else if (receiptPage === "specific") {
     page = (
       <>
-        {/* <p>{JSON.stringify(activeReceiptList)}</p> */}
-        {/* <SpecificReceipt
-          receiptCodeSelected={receiptCodeSelected}
-          receipt={activeReceiptList[receiptCodeSelected["index"]]}
-          handleUpdateList={handleUpdateList}
-          handleDeleteList={handleDeleteList}
-          userFriends={userFriends}
-          setReceiptPage={setReceiptPage}
-          //prop down friendsList
-        /> */}
         <SpecificReceiptMui
           receiptCodeSelected={receiptCodeSelected}
           receipt={activeReceiptList[receiptCodeSelected["index"]]}

@@ -43,11 +43,6 @@ export const GoogleAuth: React.FC<GoogleAuthProps> = ({
     document.getElementById("signInDiv").hidden = true;
   }
 
-  // function handleSignOut(event) {
-  //   setUser({});
-  //   document.getElementById("signInDiv").hidden = false;
-  // }
-
   function accessEmailInbox() {
     tokenClient.requestAccessToken();
     axiosInstance;
@@ -68,8 +63,6 @@ export const GoogleAuth: React.FC<GoogleAuthProps> = ({
         size: "large",
       }
     );
-
-    // window.google.accounts.id.prompt();
 
     // Access Tokens
 
@@ -101,23 +94,12 @@ export const GoogleAuth: React.FC<GoogleAuthProps> = ({
         },
       })
     );
-
-    // tokenClient.requestAccessToken()
   }, []);
 
   return (
     <>
-      {/* <p>{JSON.stringify(loggedInUser)}</p> */}
-      {/* <div id="signInDiv"></div> */}
-      {/* <Button className={"g_id_signin"} /> */}
-      {/* {Object.keys(user).length != 0 && (
-        <button onClick={(e) => handleSignOut(e)}>Sign Out</button>
-      )} */}
       {user && (
         <div>
-          {/* <img src={user.picture} />
-          <h3>{user.name}</h3> */}
-
           <Button
             type="submit"
             fullWidth

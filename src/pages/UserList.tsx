@@ -43,7 +43,6 @@ export const UserList: React.FC<UserListProps> = ({}) => {
       {userList.length && (
         <Row>
           <Card style={{ padding: "0.5rem" }}>
-            {/* <Card.Header>a</Card.Header> */}
             <Card.Body
               style={{
                 display: "flex",
@@ -76,7 +75,6 @@ export const UserList: React.FC<UserListProps> = ({}) => {
           {userList.map((d, i) => {
             return (
               <Card style={{ padding: "0.5rem" }}>
-                {/* <Card.Header>a</Card.Header> */}
                 <Card.Body
                   style={{
                     display: "flex",

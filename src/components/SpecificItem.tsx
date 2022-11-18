@@ -1,5 +1,4 @@
 import Button from "@mui/material/Button";
-import { style } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import styles from "./SpecificItem.module.css";
 
@@ -31,13 +30,7 @@ export const SpecificItem: React.FC<SpecificItemProps> = ({
   const [person, setPerson] = useState({});
   const [isItemAssigned, setIsItemAssigned] = useState(false);
 
-  // [
-  //   { name: "William", id: 3844740 },
-  //   { name: "Albert", id: 5356360 },
-  //   { name: "Adrian", id: 5875899 },
-  // ];
   const friends = userFriends.map((e) => e.name);
-  // ["John", "Mary", "Steven", "Smith"];
   const handlePerson1Change = (event: any) => {
     setPerson((prevEntry) => {
       const dict = { ...prevEntry, person1: event.target.value };
@@ -46,7 +39,6 @@ export const SpecificItem: React.FC<SpecificItemProps> = ({
     setIsItemAssigned(false);
   };
   const handlePerson2Change = (event: any) => {
-    // setPerson2(event.target.value);
     setPerson((prevEntry) => {
       const dict = { ...prevEntry, person2: event.target.value };
       return dict;
@@ -54,7 +46,6 @@ export const SpecificItem: React.FC<SpecificItemProps> = ({
     setIsItemAssigned(false);
   };
   const handlePerson3Change = (event: any) => {
-    // setPerson3(event.target.value);
     setPerson((prevEntry) => {
       const dict = { ...prevEntry, person3: event.target.value };
       return dict;
@@ -75,7 +66,6 @@ export const SpecificItem: React.FC<SpecificItemProps> = ({
 
   return (
     <div className={styles.itemContainer}>
-      {/* <h1>{JSON.stringify(person)}</h1> */}
       <div className={styles.titleContainer}>
         <div className={styles.nameContainer}>
           <div className={styles.qtyContainer}>{itemData.qty}x </div>
@@ -125,8 +115,6 @@ export const SpecificItem: React.FC<SpecificItemProps> = ({
           </Button>
         )}
       </div>
-      {/* <button onClick={handleSubmitClick}>Set</button> */}
     </div>
-    //drop down of friends list
   );
 };
