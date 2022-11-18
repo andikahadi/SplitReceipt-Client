@@ -18,6 +18,23 @@ Back-end
 Database
  - Postgresql
 
+#How the app works
+SplitReceipt app communicates with both Google API and Splitwise API. The app fetches GrabFood receipts from user's Gmail, display these receipts in SplitReceipt app for user to assign ownership, and send the assignment as expense in Splitwise.
+
+1) Require user to have Gmail that's connected to Grab Apps, and Splitwise user with friends added.
+
+2) To use SplitReceipt app, user first register and login to SplitReceipt app. At the 'Account' page there are 2 buttons, to connect to Gmail and to connect to Splitwise API. Do authorization for both.
+
+3) 'Connect to Gmail' button give access token, which is then used for get_message API. It search through inbox messages from last_email_fetch time, or 4 weeks prior if user is newly created.
+
+4) 'Connect to Splitwise' button give access token, which is then used for create_expense API, and get_friends API. Friends list is stored in React state.
+
+5) At 'Receipts' page, assign receipt to either 'Split' or 'Mine'. 
+
+6) After selecting 'Split', items of the receipt are displayed. Assign each item by filling up input box by Splitwise_friend name, and click set.  Click "Splitwise" button to send create_expense API, which create expense in Splitwise apps.`
+
+
+
 # Client Pages
 
 | Url           | Page          |
