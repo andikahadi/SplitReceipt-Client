@@ -3,10 +3,8 @@ import { Container } from "react-bootstrap";
 import { ReceiptList } from "./pages/ReceiptList";
 import { History } from "./pages/History";
 import { Account } from "./pages/Account";
-import { Navbar } from "./components/Navbar";
 import SignUp from "./components/Signup";
 import { Authorize } from "./pages/Authorize";
-import { Testing } from "./pages/Testing";
 import { useState } from "react";
 import { Login } from "./components/Login";
 import { UserList } from "./pages/UserList";
@@ -102,7 +100,6 @@ function App() {
               <Login handleLoggedInUserChange={handleLoggedInUserChange} />
             }
           />
-          <Route path="/testing" element={<Testing />} />
           <Route path="/userlist" element={<UserList />} />
         </Routes>
         <BottomNavBar />

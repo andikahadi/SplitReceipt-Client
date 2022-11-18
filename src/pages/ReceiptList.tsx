@@ -2,9 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../axios";
-import { ReceiptListItem } from "../components/ReceiptListItem";
 import { ReceiptListMui } from "../components/ReceiptListMui";
-import { SpecificReceipt } from "../components/SpecificReceipt";
 import { SpecificReceiptMui } from "../components/SpecificReceiptMui";
 import receiptlist from "../data/receiptlist";
 

@@ -12,22 +12,25 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useState } from "react";
 import axiosInstance from "../axios";
 import { useNavigate } from "react-router-dom";
+import InputAdornment from "@mui/material/InputAdornment";
 
 const theme = createTheme();
 
 export default function SignUp() {
   const nav = useNavigate();
-
   const initialFormData = Object.freeze({
     email: "",
     username: "",
     password: "",
   });
-
   const [formData, setFormData] = useState(initialFormData);
+  const [showPassword, setShowPassword] = useState(false);
+
   const handleChange = (e: any) => {
     setFormData({
       ...formData,
@@ -54,6 +57,10 @@ export default function SignUp() {
         console.log(res.data);
         nav("/login");
       });
+  };
+
+  const handleShowPasswordClick = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -105,10 +112,24 @@ export default function SignUp() {
                   fullWidth
                   name="password"
                   label="Password"
-                  type="password"
                   id="password"
+                  type={showPassword ? "text" : "password"}
                   autoComplete="new-password"
                   onChange={handleChange}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="start">
+                        {showPassword && (
+                          <VisibilityIcon onClick={handleShowPasswordClick} />
+                        )}
+                        {!showPassword && (
+                          <VisibilityOffIcon
+                            onClick={handleShowPasswordClick}
+                          />
+                        )}
+                      </InputAdornment>
+                    ),
+                  }}
                 />
               </Grid>
             </Grid>

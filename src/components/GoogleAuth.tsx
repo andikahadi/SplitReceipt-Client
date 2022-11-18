@@ -43,10 +43,10 @@ export const GoogleAuth: React.FC<GoogleAuthProps> = ({
     document.getElementById("signInDiv").hidden = true;
   }
 
-  function handleSignOut(event) {
-    setUser({});
-    document.getElementById("signInDiv").hidden = false;
-  }
+  // function handleSignOut(event) {
+  //   setUser({});
+  //   document.getElementById("signInDiv").hidden = false;
+  // }
 
   function accessEmailInbox() {
     tokenClient.requestAccessToken();

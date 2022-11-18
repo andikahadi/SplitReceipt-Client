@@ -30,7 +30,7 @@ export const SpecificReceiptMui: React.FC<SpecificReceiptMuiProps> = ({
 }) => {
   const [receiptChosen, setReceiptChosen] = useState(receipt); // receiptChosen initially contains receipt info, and will get additional info of person the items are assigned to
   const [splitAmount, setSplitAmount] = useState({}); // will store info on owedAmount {name:owedAmount, name:owedAmount}
-
+  const [text, setText] = useState([]);
   //calculate subtotal and other fee
   let subTotal = 0;
   for (let item of receipt.item) {
@@ -55,6 +55,87 @@ export const SpecificReceiptMui: React.FC<SpecificReceiptMuiProps> = ({
   useEffect(() => {
     handleUpdateList(receiptCodeSelected["index"], receiptChosen);
   }, [receiptChosen]);
+
+  const handleCheckClick = () => {
+    console.log(splitAmount);
+    let isSet = true;
+    let i = 0;
+    while (isSet && i < receiptChosen.item.length) {
+      isSet = receiptChosen.item[i].hasOwnProperty("person");
+      i += 1;
+    }
+
+    if (isSet == true) {
+      let tempSplitAmount = {};
+      for (let i = 0; i < receiptChosen.item.length; i++) {
+        for (let j = 0; j < receiptChosen.item[i].person.length; j++) {
+          if (!(receiptChosen.item[i].person[j] in tempSplitAmount)) {
+            let newItem = receiptChosen.item[i].person[j];
+            tempSplitAmount[newItem] =
+              receiptChosen.item[i].total_item_price /
+              receiptChosen.item[i].person.length;
+          } else {
+            let existingItem = receiptChosen.item[i].person[j];
+            let prevAmount = tempSplitAmount[existingItem];
+            let newAmount =
+              prevAmount +
+              receiptChosen.item[i].total_item_price /
+                receiptChosen.item[i].person.length;
+
+            tempSplitAmount[existingItem] = newAmount;
+          }
+        }
+      }
+      console.log(tempSplitAmount);
+      setSplitAmount(tempSplitAmount);
+
+      let expenseData = [];
+      Object.keys(tempSplitAmount).forEach((key) => {
+        let name = key;
+        let owed = tempSplitAmount[key];
+        let indexInUserFriends = userFriends.map((e) => e.name).indexOf(key);
+        let splitwiseId;
+        if (name == "You") {
+          splitwiseId = "You";
+        } else {
+          splitwiseId = userFriends[indexInUserFriends]["id"];
+        }
+        let dataTemplate = {
+          name: name,
+          splitwiseId: splitwiseId,
+          owedWithFee:
+            owed +
+            Math.round((otherFee / Object.keys(tempSplitAmount).length) * 100) /
+              100,
+        };
+        expenseData.push(dataTemplate);
+      });
+      console.log(expenseData);
+
+      setText([`You paid $${receiptChosen.receipt_total}`]);
+      for (let user of expenseData) {
+        console.log(user);
+
+        console.log(
+          `${user.name} owes ${tempSplitAmount[user.name]}, other fee ${
+            Math.round((otherFee / Object.keys(tempSplitAmount).length) * 100) /
+            100
+          }, total $${user.owedWithFee}`
+        );
+        setText((prevState) => {
+          let newArr = [...prevState];
+          newArr.push(
+            `${user.name} owes ${tempSplitAmount[user.name]}, other fee ${
+              Math.round(
+                (otherFee / Object.keys(tempSplitAmount).length) * 100
+              ) / 100
+            }, total $${user.owedWithFee}`
+          );
+          return newArr;
+        });
+      }
+    }
+  };
 
   const handleCalculateClick = () => {
     let isSet = true;
@@ -95,8 +176,8 @@ export const SpecificReceiptMui: React.FC<SpecificReceiptMuiProps> = ({
         let owed = tempSplitAmount[key];
         let indexInUserFriends = userFriends.map((e) => e.name).indexOf(key);
         let splitwiseId;
-        if (name == "Me") {
-          splitwiseId = "Me";
+        if (name == "You") {
+          splitwiseId = "You";
         } else {
           splitwiseId = userFriends[indexInUserFriends]["id"];
         }
@@ -142,7 +223,7 @@ export const SpecificReceiptMui: React.FC<SpecificReceiptMuiProps> = ({
   };
 
   return (
-    <Card sx={{ width: "100%", mt: 1 }}>
+    <Card sx={{ width: "100%", mt: 1, pb: 5 }}>
       <CardContent>
         <Box
           sx={{
@@ -176,11 +257,26 @@ export const SpecificReceiptMui: React.FC<SpecificReceiptMuiProps> = ({
           />
         );
       })}
+      <div style={{ whiteSpace: "pre-wrap", paddingLeft: 16 }}>
+        {text.join("\n")}
+      </div>
       <CardActions>
-        <Button size="large" onClick={(e) => handleCalculateClick()}>
-          Split Receipt in Splitwise
+        <Button size="large" onClick={(e) => handleCheckClick()}>
+          Check split amount
         </Button>
       </CardActions>
+      <div>
+        <Button
+          size="large"
+          type="submit"
+          fullWidth
+          variant="contained"
+          sx={{ mt: 3, mb: 2 }}
+          onClick={(e) => handleCalculateClick()}
+        >
+          Split Receipt in Splitwise
+        </Button>
+      </div>
     </Card>
   );
 };

@@ -12,9 +12,12 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useState } from "react";
 import axiosInstance from "../axios";
 import { useNavigate } from "react-router-dom";
+import InputAdornment from "@mui/material/InputAdornment";
 const theme = createTheme();
 
 interface LoginProps {
@@ -27,8 +30,9 @@ export const Login: React.FC<LoginProps> = ({ handleLoggedInUserChange }) => {
     email: "",
     password: "",
   });
-
   const [formData, setFormData] = useState(initialFormData);
+  const [showPassword, setShowPassword] = useState(false);
+
   const handleChange = (e: any) => {
     setFormData({
       ...formData,
@@ -73,6 +77,10 @@ export const Login: React.FC<LoginProps> = ({ handleLoggedInUserChange }) => {
       });
   };
 
+  const handleShowPasswordClick = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <ThemeProvider theme={theme}>
       {/* <p>{JSON.stringify(formData)}</p> */}
@@ -110,10 +118,22 @@ export const Login: React.FC<LoginProps> = ({ handleLoggedInUserChange }) => {
               fullWidth
               name="password"
               label="Password"
-              type="password"
               id="password"
+              type={showPassword ? "text" : "password"}
               autoComplete="current-password"
               onChange={handleChange}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="start">
+                    {showPassword && (
+                      <VisibilityIcon onClick={handleShowPasswordClick} />
+                    )}
+                    {!showPassword && (
+                      <VisibilityOffIcon onClick={handleShowPasswordClick} />
+                    )}
+                  </InputAdornment>
+                ),
+              }}
             />
             <Button
               type="submit"

@@ -34,10 +34,10 @@ export const HistoryItemMui: React.FC<HistoryItemMuiProps> = ({
             justifyContent: "space-between",
           }}
         >
-          <Typography gutterBottom variant="h6" component="div">
+          <Typography gutterBottom variant="subtitle1" component="div">
             {vendor}
           </Typography>
-          <Typography gutterBottom variant="h6" color="text.secondary">
+          <Typography gutterBottom variant="subtitle1" color="text.secondary">
             ${receipt_total}
           </Typography>
         </Box>

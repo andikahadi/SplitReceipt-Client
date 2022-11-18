@@ -94,9 +94,9 @@ export const Account: React.FC<AccountProps> = ({
         Get splitwise friend list
       </Button> */}
 
-      <Card sx={{ minWidth: 275, mt: 2 }}>
+      <Card sx={{ minWidth: 275, mt: 1 }}>
         <CardContent>
-          <Typography variant="h5" component="div" sx={{ mb: 5, mt: 0 }}>
+          <Typography variant="h6" component="div" sx={{ mb: 5, mt: 0 }}>
             Hi there, {userInfo?.username} !
           </Typography>
 

@@ -40,26 +40,83 @@ export const UserList: React.FC<UserListProps> = ({}) => {
 
   return (
     <>
-      <h1>User List</h1>
       {userList.length && (
         <Row>
+          <Card style={{ padding: "0.5rem" }}>
+            {/* <Card.Header>a</Card.Header> */}
+            <Card.Body
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                padding: 0,
+              }}
+            >
+              <Card.Text
+                style={{ fontSize: "0.8rem", width: "20%", margin: 0 }}
+              >
+                User
+              </Card.Text>
+              <Card.Text
+                style={{ fontSize: "0.8rem", width: "30%", margin: 0 }}
+              >
+                Email
+              </Card.Text>
+              <Card.Text
+                style={{ fontSize: "0.8rem", width: "22%", margin: 0 }}
+              >
+                Join Date
+              </Card.Text>
+              <Card.Text
+                style={{
+                  width: "24%",
+                }}
+              ></Card.Text>
+            </Card.Body>
+          </Card>
           {userList.map((d, i) => {
             return (
-              <Card>
+              <Card style={{ padding: "0.5rem" }}>
                 {/* <Card.Header>a</Card.Header> */}
-                <Card.Body>
-                  <Card.Title>Username: {d["user_name"]}</Card.Title>
-                  <Card.Text>Email : {d.email}</Card.Text>
-                  <Card.Text>Join Date : {d.date_joined}</Card.Text>
-                  <Card.Text>Last Login : {d.last_login}</Card.Text>
-                  <Button
-                    variant="primary"
-                    onClick={() => {
-                      handleUserDelete(d, i);
-                    }}
+                <Card.Body
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    padding: 0,
+                  }}
+                >
+                  <Card.Text
+                    style={{ fontSize: "0.8rem", width: "20%", margin: 0 }}
                   >
-                    Delete User
-                  </Button>
+                    {d["user_name"]}
+                  </Card.Text>
+                  <Card.Text
+                    style={{ fontSize: "0.8rem", width: "30%", margin: 0 }}
+                  >
+                    {d.email}
+                  </Card.Text>
+                  <Card.Text
+                    style={{ fontSize: "0.8rem", width: "22%", margin: 0 }}
+                  >
+                    {d.date_joined.slice(0, -14)}
+                  </Card.Text>
+                  <div style={{ width: "24%" }}>
+                    <Button
+                      style={{
+                        maxWidth: "100px",
+                        maxHeight: "30px",
+                        minWidth: "90px",
+                        minHeight: "20px",
+                        fontSize: "0.8rem",
+                        margin: 0,
+                      }}
+                      variant="primary"
+                      onClick={() => {
+                        handleUserDelete(d, i);
+                      }}
+                    >
+                      Delete User
+                    </Button>
+                  </div>
                 </Card.Body>
               </Card>
             );

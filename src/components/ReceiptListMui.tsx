@@ -58,36 +58,53 @@ export const ReceiptListMui: React.FC<ReceiptListMuiProps> = ({
             justifyContent: "space-between",
           }}
         >
-          <Typography gutterBottom variant="h6" component="div">
+          <Typography gutterBottom variant="subtitle1" component="div">
             {vendor}
           </Typography>
-          <Typography gutterBottom variant="h6" color="text.secondary">
+          <Typography gutterBottom variant="subtitle1" color="text.secondary">
             ${receipt_total}
           </Typography>
         </Box>
-
-        <Typography variant="body2" component="div">
-          {receipt_type}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Pickup time: {delivery_date.slice(0, -5)}
-        </Typography>
-        <Box sx={{ mt: 1, display: "flex", justifyContent: "space-around" }}>
-          <Button
-            size="small"
-            onClick={() => {
-              handleReceiptPageChange("specific");
-              handleReceiptCodeSelectedChange({
-                index: index,
-                receipt_code: receipt_code,
-              });
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
             }}
           >
-            Split
-          </Button>
-          <Button size="small" onClick={handleMineClick}>
-            Mine
-          </Button>
+            <Typography variant="body2" component="div">
+              {receipt_type}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              {delivery_date.slice(0, -5)}
+            </Typography>
+          </Box>
+          <Box sx={{ mt: 1, display: "flex", justifyContent: "space-around" }}>
+            <Button
+              sx={{ mr: 3 }}
+              size="small"
+              variant="outlined"
+              onClick={() => {
+                handleReceiptPageChange("specific");
+                handleReceiptCodeSelectedChange({
+                  index: index,
+                  receipt_code: receipt_code,
+                });
+              }}
+            >
+              Split
+            </Button>
+            <Button size="small" onClick={handleMineClick} variant="outlined">
+              Mine
+            </Button>
+          </Box>
         </Box>
       </CardContent>
     </Card>

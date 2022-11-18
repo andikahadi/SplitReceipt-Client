@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../axios";
-import { HistoryItem } from "../components/HistoryItem";
+
 import { HistoryItemMui } from "../components/HistoryItemMui";
 import historyData from "../data/history";
 
@@ -11,7 +11,7 @@ interface HistoryProps {
 }
 
 export const History: React.FC<HistoryProps> = ({ loggedInUser }) => {
-  const [receiptHistoryList, setReceiptHistoryList] = useState();
+  const [receiptHistoryList, setReceiptHistoryList] = useState([]);
   const nav = useNavigate();
 
   useEffect(() => {

@@ -104,7 +104,7 @@ export const SpecificItem: React.FC<SpecificItemProps> = ({
         ></input>
       </div>
       <datalist id="friends">
-        <option value="Me" />
+        <option value="You" />
         {friends.sort().map((d, i) => {
           return <option value={d} />;
         })}
