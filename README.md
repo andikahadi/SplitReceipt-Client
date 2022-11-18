@@ -32,10 +32,22 @@ Database
 
 | Endpoint      | Method        | Description   |
 | ------------- | ------------- |------------- |
+| 'api/token/'| POST      |to login|
+| 'api/token/refresh/'| POST      |to get new access token|
+| 'api/user/register'| POST      |to register new account|
 | 'api/user-read/'| POST      |to get current user info|
 | 'api/user-read/'| GET      |to get list of all user for admin|
 | 'api/user-delete/'| POST      |to delete user for admin      |
 | 'api/splitwise/'| GET      |to get authorization url      |
 | 'api/splitwise/'   | POST      |to get splitwise access token      |
+| 'api/splitwise-friend/'| POST      |to get user Splitwise friends list|
+| 'api/post-expense/'| POST      |to call Splitwise API creating expense     |
+| 'api/get-receipt/'   | POST      |to get receipt from database      |
+| 'api/gmail-receipt/'| POST      |get receipt email from inbox based on last fetch time|
+| 'api/receipt-update/'| PATCH      |update database to note that receipt is assigned     |
+
+
+
+
 
 
